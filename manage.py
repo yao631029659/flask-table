@@ -1,4 +1,5 @@
 from flask_script import Manager, Server
+#修正中文乱码了
 # 这里引用main.py 就在当前路径下
 from main import app,db,User
 # 用manager管理app

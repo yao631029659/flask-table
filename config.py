@@ -1,4 +1,5 @@
 #这个是配置文件目录 等下main要调用里面的部分信息
+# 修正中文乱码了
 class DevConfig(object):
     #写了这句等下有提示
     DEBUG = True

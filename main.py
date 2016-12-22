@@ -1,5 +1,5 @@
 #一个生成app实例
-#第二生成数据库
+#第二生成数据库 修正中文乱码了
 from flask import Flask
 from config import DevConfig
 from flask_sqlalchemy import SQLAlchemy
@@ -13,6 +13,10 @@ class User(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
     username=db.Column(db.String(255))
     password=db.Column(db.String(255))
+    # 刚开始的时候 没写这句结果一用 users的时候老是报main 0x错误 搞了我一整天 我还以为是中文编码的问题呢 原来是错在这里
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
 
 @app.route('/')
 def home():
