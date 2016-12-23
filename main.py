@@ -15,6 +15,7 @@ class User(db.Model):
     password=db.Column(db.String(255))
     # lazy = subquery: 会在加载Post对象后，将与Post相关联的对象全部加载，这样就可以减少Query的动作，也就是减少了对DB的I / O操作。但可能会返回大量不被使用的数据，会影响效率。
     # lazy = dynamic: 只有被使用时，对象才会被加载，并且返回式会进行过滤，如果现在或将来需要返回的数据量很大，建议使用这种方式。
+    #backref 允许我们从多端向当前一端进行修改Post.user
     posts=db.relationship('Post',backref='user',lazy='subquery')
     def __init__(self,username):
         self.username=username
@@ -28,6 +29,7 @@ class Post(db.Model):
     title=db.Column(db.String(255))
     text=db.Column(db.Text())
     push_date=db.Column(db.DateTime())
+    # 不建议使用User.id(对象属性) user.id是类属性相当于 __tablename__
     user_id=db.Column(db.Integer(),db.ForeignKey('user.id'))
 
     def __init__(self,title):
