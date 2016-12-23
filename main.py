@@ -1,14 +1,22 @@
 #一个生成app实例
 #第二生成数据库 修正中文乱码了
-from flask import Flask
+from flask import Flask,render_template
 from config import DevConfig
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 
 app = Flask(__name__)
 # 从app下的config导入配置
 app.config.from_object(DevConfig)
 # SQLAlchemy 会自动的从 app 对象中的 DevConfig 中加载连接数据库的配置项
 db=SQLAlchemy(app)
+# 多对多表关系
+tags=db.Table(
+    'post_tags',
+    db.Column('psot_id',db.Integer,db.ForeignKey('post.id')),
+    db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'))
+)
+
 class User(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
     username=db.Column(db.String(255))
@@ -28,7 +36,7 @@ class Post(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
     title=db.Column(db.String(255))
     text=db.Column(db.Text())
-    push_date=db.Column(db.DateTime())
+    publish_date=db.Column(db.DateTime())
     # 不建议使用User.id(对象属性) user.id是类属性相当于 __tablename__
 
     comments=db.relationship(
@@ -39,6 +47,15 @@ class Post(db.Model):
         lazy='dynamic'
     )
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    # many to many: posts <==> tags
+    tags = db.relationship(
+        # 和post关联的表是tag
+        'Tag',
+        # 关系保存在tags里面
+        secondary=tags,
+        # db.backref返回的是列表
+        backref=db.backref('posts',lazy='dynamic')
+    )
 
     def __init__(self,title):
         self.title=title
@@ -55,6 +72,27 @@ class Comment(db.Model):
 
     def __repr__(self):
         return "<comment '{}'>".format(self.text[0:15])
+
+class Tag(db.Model):
+    id=db.Column(db.Integer(),primary_key=True)
+    title=db.Column(db.String(255))
+
+    def __init__(self,title):
+        self.title=title
+    def __repr__(self):
+        return "<Tag '{}'>".format(self.title)
+
+def sidebar_data():
+    recent = Post.query.order_by(
+        Post.publish_date.desc()
+    ).limit(5).all()
+    top_tags=db.session.query(
+        Tag,func.count(tags.c.post_id).label('total')
+    ).join(
+        tags
+    ).group_by(Tag).order_by('total DESC').limit(5).all()
+
+
 
 
 
