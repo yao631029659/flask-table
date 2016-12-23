@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 # 从app下的config导入配置
 app.config.from_object(DevConfig)
-# 传递给数据库
+# SQLAlchemy 会自动的从 app 对象中的 DevConfig 中加载连接数据库的配置项
 db=SQLAlchemy(app)
 class User(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
@@ -30,13 +30,33 @@ class Post(db.Model):
     text=db.Column(db.Text())
     push_date=db.Column(db.DateTime())
     # 不建议使用User.id(对象属性) user.id是类属性相当于 __tablename__
-    user_id=db.Column(db.Integer(),db.ForeignKey('user.id'))
+
+    comments=db.relationship(
+        # 多端表的类名
+        'Comment',
+        #当前表的名字
+        backref='post',
+        lazy='dynamic'
+    )
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     def __init__(self,title):
         self.title=title
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
+
+class Comment(db.Model):
+    id=db.Column(db.Integer(),primary_key=True)
+    name=db.Column(db.String(255))
+    text=db.Column(db.Text())
+    date=db.Column(db.DateTime())
+    post_id=db.Column(db.Integer(),db.ForeignKey('post.id'))
+
+    def __repr__(self):
+        return "<comment '{}'>".format(self.text[0:15])
+
+
 
 
 
