@@ -13,7 +13,7 @@ db=SQLAlchemy(app)
 # 多对多表关系
 tags=db.Table(
     'post_tags',
-    db.Column('psot_id',db.Integer,db.ForeignKey('post.id')),
+    db.Column('post_id',db.Integer,db.ForeignKey('post.id')),
     db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'))
 )
 
@@ -71,7 +71,7 @@ class Comment(db.Model):
     post_id=db.Column(db.Integer(),db.ForeignKey('post.id'))
 
     def __repr__(self):
-        return "<comment '{}'>".format(self.text[0:15])
+        return "<Comment '{}'>".format(self.text[:15])
 
 class Tag(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
@@ -91,6 +91,7 @@ def sidebar_data():
     ).join(
         tags
     ).group_by(Tag).order_by('total DESC').limit(5).all()
+    return recent,top_tags
 
 
 
@@ -100,8 +101,15 @@ def sidebar_data():
 
 
 @app.route('/')
-def home():
-    return '<h1>Hello World!</h1>'
-
+@app.route('/<int:page>')
+def home(page=1):
+    posts = Post.query.order_by(Post.publish_date.desc()).paginate(page, 10)
+    recent, top_tags = sidebar_data()
+    return render_template(
+        'home.html',
+        posts=posts,
+        recent=recent,
+        top_tags=top_tags
+    )
 if __name__ == '__main__':
     app.run()
