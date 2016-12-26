@@ -1,13 +1,15 @@
 {% macro render_pagination(pagination, endpoint) %}
     <nav>
-{#        定义一个无序列表#}
         <ul class="pagination">
+{#            第一部分#}
             <li>
 {#                返回&raquo;符号#}
                 <a href="{{ url_for('home', page=pagination.prev().page) }}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
+
+{#        第二部分 循环遍历里面的每一个#}
             {% for page in pagination.iter_pages() %}
                 {% if page %}
                     {% if page != pagination.page %}
@@ -20,6 +22,8 @@
                     <li><a>…</a><li>
                 {% endif %}
             {% endfor %}
+
+{#        第三部分开始#}
             <li>
                 返回&raquo;符号
                 <a href="{{ url_for('home', page=pagination.next().page) }}" aria-label="Next">
@@ -39,9 +43,11 @@
         <title>{% block title %}Blog{% endblock %}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     </head>
+
     <body>
         <div class="container">
             <div class="jumbotron">
+{#                回到主页的超链接#}
                 <h1><a href="{{ url_for('home') }}">My Blog</a></h1>
                 <p>Welcome to the blog!</p>
             </div>
