@@ -1,75 +1,57 @@
+{% macro render_pagination(pagination, endpoint) %}
+    <nav>
+{#        定义一个无序列表#}
+        <ul class="pagination">
+            <li>
+{#                返回&raquo;符号#}
+                <a href="{{ url_for('home', page=pagination.prev().page) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                        <li><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="">{{ page }}</a></li>
+                    {% endif %}
+{#                    如果page为空#}
+                {% else %}
+                    <li><a>…</a><li>
+                {% endif %}
+            {% endfor %}
+            <li>
+                返回&raquo;符号
+                <a href="{{ url_for('home', page=pagination.next().page) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endmacro %}
+
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Blog{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1><a href="{{ url_for('home') }}">My Blog</a></h1>
+                <p>Welcome to the blog!</p>
+            </div>
 
-<head>
-  <meta charset="utf-8">
-{#  下面的这句话只有ie懂 用最高版本的ie渲染#}
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-{#initial-scale：初始缩放比例，也即是当页面第一次 load 的时候缩放比例 这里等于1#}
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- Will be replace the page title -->
-  <title>{% block title %}Home{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-  <!-- Macro: `render paginate` -->
-{#  这里的render_pagination就是一个定义好的函数而已#}
-  {% macro render_pagination(pagination, endpoint) %}
-    <nav>
-{#        只要写了这个 bs3就会把它看作导航#}
-      <ul class="pagination">
-{#        判断是否有前一页#}
-        <li>
-        {% if pagination.has_prev %}
-{#            假设现在在第一页 生成的样式应该是这样的 <a href="home/2">#}
-          <a href="{{ url_for('home', page=pagination.prev().page)
-            }}" aria-label="Previous">
-{#            如果没有前一页 返回第一页#}
-        {% else %}
-{#            如果这一句被执行的话 那哥们你打开的肯定是第一页  <a href="home/1">#}
-{#            aria-label 这个是给读屏幕的软件用的 盲人或者其他人用的#}
-          <a href="{{ url_for('home', page=1) }}" aria-label="Previous">
-        {% endif %}
-{#            这个开始字符  <<   #}
-            <span aria-label="true">&laquo;</span>
-          </a>
-        </li>
-{#        中间的for循环为页数的迭代展示#}
-        {% for page in pagination.iter_pages() %}
-{#          如果page不为空#}
-          {% if page %}
-            {% if page != pagination.page %}
-              <li>
-                <a href="{{ url_for(endpoint, page=page) }}">
-                  {{ page }}
-                </a>
-              </li>
-            {% else %}
-              <li><a href="">{{ page }}</a></li>
-            {% endif %}
-          {% else %}
-{#      最后一部分是判断是否有下一页，有则显示相应按钮#}
-        <li>
-          <a href="{{ url_for('home', page=pagination.next().page )
-            }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        <li>
-      </ul>
-    </nav>
-  {% endmacro %}
+            {% block body %}
 
-</head>
-<body>
-  <div class="container">
-    <div class="jumbotron">
-      <!-- Replace the route function to URL: `/` -->
-      <h1><a href="{{ url_for('home')}} ">JmilkFan's Blog</a></h1>
-        <p>Welcome to the blog!</p>
-    </div>
-    {% block body %}
-        body内容写在这里
-    {% endblock %}
-  </div>
-  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-</body>
+            {% endblock %}
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    </body>
 </html>
