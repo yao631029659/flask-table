@@ -100,16 +100,19 @@ def sidebar_data():
 # 把接收回来的函数 转换成int 赋值给page
 @app.route('/<int:page>')
 def home(page=1):
+    # 第一次使用的使用要从类里面query posts已经是pagination对象了 这个对象有 has_next :是否还有下一页 has_prev :是否还有上一页 这些方法
     posts = Post.query.order_by(Post.publish_date.desc()).paginate(page, 10)
     recent, top_tags = sidebar_data()
     return render_template(
         'home.html',
+        # 传递值给模板
         posts=posts,
         recent=recent,
         top_tags=top_tags
     )
 @app.route('/post/<int:post_id>')
 def post(post_id):
+    # 如果没有找到返回404错误
     post=Post.query.get_or_404(post_id)
     tags=post.tags
     comments=post.comments.order_by(Comment.date.desc()).all()
