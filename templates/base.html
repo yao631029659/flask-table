@@ -12,12 +12,15 @@
 {#        第二部分 循环遍历里面的每一个#}
             {% for page in pagination.iter_pages() %}
                 {% if page %}
+{#                    如果这一页不是当前页 傻 那就生成链接呗#}
                     {% if page != pagination.page %}
+{#                        这个endpoint是要调用的函数#}
                         <li><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
                     {% else %}
+{#                        如果这个链接是当前页 那就生成一个没有href的链接#}
                         <li><a href="">{{ page }}</a></li>
                     {% endif %}
-{#              如果page为空#}
+{#              如果page为空 那就弄一个 ... 表示无语#}
                 {% else %}
                     <li><a>…</a><li>
                 {% endif %}
@@ -25,7 +28,7 @@
 
 {#        第三部分开始#}
             <li>
-                返回&raquo;符号
+{#                返回&raquo;符号#}
                 <a href="{{ url_for('home', page=pagination.next().page) }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
