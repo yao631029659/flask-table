@@ -14,7 +14,7 @@
         {% if page %}
             {% if page!=pagination.page %}
             <li>
-                <a href="{{ url_for("home",page=pagination.page) }}">
+                <a href="{{ url_for("home",page=page) }}">
                     {{ page }}
                  </a>
             </li>
