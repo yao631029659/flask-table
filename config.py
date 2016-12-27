@@ -1,5 +1,7 @@
 #这个是配置文件目录 等下main要调用里面的部分信息
-# 修正中文乱码了
+class Config(object):
+    SECRET_KEY = '736670cb10a600b695a55839ca3a5aa54a7d7356cdef815d2ad6e19a2031182b'
+
 class DevConfig(object):
     #写了这句等下有提示
     DEBUG = True
