@@ -1,7 +1,12 @@
+import datetime
+
 from flask import Flask,render_template
 from config import DevConfig
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func,or_
+from flask_wtf import Form
+from wtforms import StringField, TextAreaField
+from wtforms.validators import DataRequired, Length
 
 app = Flask(__name__)
 # 从app下的config导入配置
@@ -79,11 +84,21 @@ class Tag(db.Model):
         self.title=title
     def __repr__(self):
         return "<Tag '{}'>".format(self.title)
+# 表单第一步 继承form类
+class CommentForm(Form):
+    name = StringField(
+        # 这个在列表里面叫 form.name.label
+        'Name',
+        validators=[DataRequired(), Length(max=255)]
+    )
+    text = TextAreaField(u'Comment', validators=[DataRequired()])
+
 # 方便多次引用 home就引用了 返回的是rencent 和top_tag
 def sidebar_data():
     recent = Post.query.order_by(
         Post.publish_date.desc()
     ).limit(5).all()
+    # top_tags里面一共有三列
     top_tags=db.session.query(
         # Tag(tag)就是那个表关系模型表 # tags(post_tags) 是那个关系表 # label把列名改成total # post.c  c的意思是column的意思
         Tag,func.count(tags.c.post_id).label('total')
@@ -110,9 +125,25 @@ def home(page=1):
         recent=recent,
         top_tags=top_tags
     )
-@app.route('/post/<int:post_id>')
+@app.route('/post/<int:post_id>',methods=('GET','POST'))
 def post(post_id):
-    # 如果没有找到返回404错误
+    # 创建表单对象实例
+    form = CommentForm()
+    # 如果使用了post方法 点击提交view页面的提交 才会执行 看到没有数据传回来了
+    if form.validate_on_submit():
+        # 这个comment就是我们定义的表 class Commnent() 磨刀霍霍向猪羊 数据都准备好了 要提交了
+        # 还记得 user=User.query.all()吗？
+        new_comment = Comment()
+        new_comment.name = form.name.data
+        new_comment.text = form.text.data
+        # post_id是路由传过来的数据
+        new_comment.post_id = post_id
+        new_comment.date = datetime.datetime.now()
+
+        db.session.add(new_comment)
+        db.session.commit()
+
+    # 如果没有找到返回404错误 没有找到需要评论的文章
     post=Post.query.get_or_404(post_id)
     tags=post.tags
     comments=post.comments.order_by(Comment.date.desc()).all()
@@ -123,7 +154,9 @@ def post(post_id):
         tags=tags,
         comments=comments,
         recent=recent,
-        top_tags=top_tags
+        top_tags=top_tags,
+        # 表单发出去了 上面回收哦
+        form=form
     )
 @app.route('/tag/<string:tag_name>')
 def tag(tag_name):
