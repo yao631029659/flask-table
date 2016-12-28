@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://D:/flaskexample/JmilkFan-s-Blog/.idea/JmilkFan-s-Blog.iml" filepath="D:/flaskexample/JmilkFan-s-Blog/.idea/JmilkFan-s-Blog.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/flask.iml" filepath="$PROJECT_DIR$/.idea/flask.iml" />
+      <module fileurl="file://D:/flask-wtf/.idea/flask-wtf.iml" filepath="D:/flask-wtf/.idea/flask-wtf.iml" />
       <module fileurl="file://D:/flasklearningbook/.idea/flasklearningbook.iml" filepath="D:/flasklearningbook/.idea/flasklearningbook.iml" />
     </modules>
   </component>

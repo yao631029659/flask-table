@@ -6,6 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="JmilkFan-s-Blog" />
     <orderEntry type="module" module-name="flasklearningbook" />
+    <orderEntry type="module" module-name="flask-wtf" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

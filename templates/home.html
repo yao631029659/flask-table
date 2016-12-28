@@ -37,6 +37,7 @@
             </div>
             <div class="row">
                 <h5>Popular Tags</h5>
+{#                tag 一共有三列哦#}
                 {% for tag in top_tags %}
                     <ul>
                         <li><a href="{{ url_for('tag',tag_name=tag[0].title) }}">{{ tag[0].title }}</a> </li>
