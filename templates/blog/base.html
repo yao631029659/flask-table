@@ -4,7 +4,7 @@
 <ul class="pagination">
     {#生成链接到上一页#}
     <li>
-       <a href="{{ url_for("home",page=pagination.prev().page) }}">
+       <a href="{{ url_for(".home",page=pagination.prev().page) }}">
            上一页
        </a>
     </li>
@@ -14,7 +14,7 @@
         {% if page %}
             {% if page!=pagination.page %}
             <li>
-                <a href="{{ url_for("home",page=page) }}">
+                <a href="{{ url_for(endpoint,page=page) }}">
                     {{ page }}
                  </a>
             </li>
@@ -34,7 +34,7 @@
 
     {#生成链接到下一页#}
       <li>
-       <a href="{{ url_for("home",page=pagination.next().page) }}">
+       <a href="{{ url_for(".home",page=pagination.next().page) }}">
            下一页
        </a>
     </li>
@@ -56,7 +56,7 @@
 <body>
 <div class="container">
     <div class="jumbotron">
-        <h1><a href="{{ url_for('home') }}">My Blog</a> </h1>
+        <h1><a href="{{ url_for('.home') }}">My Blog</a> </h1>
         <p>Welcome to the blog!</p>
     </div>
     {% block body %}

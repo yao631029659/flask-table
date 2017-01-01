@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "blog/base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block body %}
     <div class="row">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-lg-6">
                     {% for tag in tags %}
-                        <a href="{{ url_for('tag',tag_name=tag.title) }}">{{ tag.title }}</a>
+                        <a href="{{ url_for('.tag',tag_name=tag.title) }}">{{ tag.title }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="col-lg-12">
                 <h3>New Comment:</h3>
 {#                这个post_id从control传出来 又传回control里面去了 post 大小写都没有问题#}
-                <form method="post" action="{{ url_for('post', post_id=post.id) }}">
+                <form method="post" action="{{ url_for('.post', post_id=post.id) }}">
 {#                    我们在配置中开启了CSRF(跨站伪造请求)功能，模板参数 {{ form.hidden_tag() }} 会被替换成一个具有防止CSRF功能的隐藏表单字段。在开启了CSRF功能后（默认开通的），所有模板的表单中都需要添加这个模板参数。#}
                     {{ form.hidden_tag() }}
 {#                        name显示位置#}
@@ -84,7 +84,7 @@
                 <h5>Recent Posts</h5>
                 {% for post in recent %}
                     <ul>
-                        <li><a href="{{ url_for('post',post_id=post.id) }}">{{ post.title }}</a> </li>
+                        <li><a href="{{ url_for('.post',post_id=post.id) }}">{{ post.title }}</a> </li>
                     </ul>
                 {% endfor %}
             </div>
@@ -93,7 +93,7 @@
 {#                tag 一共有三列哦#}
                 {% for tag in top_tags %}
                     <ul>
-                        <li><a href="{{ url_for('tag',tag_name=tag[0].title) }}">{{ tag[0].title }}</a> </li>
+                        <li><a href="{{ url_for('.tag',tag_name=tag[0].title) }}">{{ tag[0].title }}</a> </li>
                     </ul>
                 {% endfor %}
             </div>
