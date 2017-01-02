@@ -5,8 +5,9 @@
       <module fileurl="file://D:/hlt/.idea/HLT.iml" filepath="D:/hlt/.idea/HLT.iml" />
       <module fileurl="file://D:/flaskexample/JmilkFan-s-Blog/.idea/JmilkFan-s-Blog.iml" filepath="D:/flaskexample/JmilkFan-s-Blog/.idea/JmilkFan-s-Blog.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/flask.iml" filepath="$PROJECT_DIR$/.idea/flask.iml" />
-      <module fileurl="file://D:/tableinstance/flask_table/.idea/flask_table.iml" filepath="D:/tableinstance/flask_table/.idea/flask_table.iml" />
       <module fileurl="file://D:/flasklearningbook/.idea/flasklearningbook.iml" filepath="D:/flasklearningbook/.idea/flasklearningbook.iml" />
+      <module fileurl="file://D:/plugable/.idea/plugable.iml" filepath="D:/plugable/.idea/plugable.iml" />
+      <module fileurl="file://D:/plugable/.idea/plugable.iml" filepath="D:/plugable/.idea/plugable.iml" />
     </modules>
   </component>
 </project>

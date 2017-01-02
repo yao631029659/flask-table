@@ -8,8 +8,8 @@
     <orderEntry type="module" module-name="flasklearningbook" />
     <orderEntry type="module" module-name="flask-wtf" />
     <orderEntry type="module" module-name="hlt" />
-    <orderEntry type="module" module-name="flask_table" />
     <orderEntry type="module" module-name="HLT" />
+    <orderEntry type="module" module-name="plugable" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

@@ -1,3 +1,4 @@
+from os import path
 #这个是配置文件目录 等下main要调用里面的部分信息
 class Config(object):
     SECRET_KEY = '736670cb10a600b695a55839ca3a5aa54a7d7356cdef815d2ad6e19a2031182b'
@@ -6,7 +7,9 @@ class Config(object):
 class DevConfig(Config):
     #写了这句等下有提示
     DEBUG = True
-    # 这个是sqlalchemy的uri
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+    # 这个是sqlalchemy的uri    pardir 是parentdir的意思
+    SQLALCHEMY_DATABASE_URI ='sqlite:///database.db'
+    # 书本说的这句好像执行不了
+    # SQLALCHEMY_DATABASE_URI = 'sqlite://'+path.join(path.pardir,'database.db')
     # 写了这句可以看到sql语句
     SQLALCHEMY_ECHO=True

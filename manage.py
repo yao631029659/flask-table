@@ -1,7 +1,8 @@
 from flask_script import Manager, Server
-#修正中文乱码了
-# 这里引用main.py 就在当前路径下
-from main import app,db,User,Post,Comment,Tag,tags
+# 现在app被拆到第一行了 原来在第二行的
+from webapp import app
+from webapp.models import db,User,Post,Comment,Tag,tags
+
 # 用manager管理app
 manager = Manager(app)
 # 导入到命令行
