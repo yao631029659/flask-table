@@ -6,6 +6,7 @@ from webapp.config import DevConfig
 from webapp.models import db
 # 这个是为了认证蓝图
 from webapp.controllers.blog import blog_blueprint
+from webapp.controllers.main import main_blueprint
 # 这里一共有三句重要的代码
 app = Flask(__name__)
 # 从app下的config导入配置
@@ -21,5 +22,6 @@ def index():
     return redirect(url_for('blog.home'))
 # 注册蓝图 第三
 app.register_blueprint(blog_blueprint)
+app.register_blueprint(main_blueprint)
 if __name__ == '__main__':
     app.run()

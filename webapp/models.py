@@ -25,8 +25,9 @@ class User(db.Model):
     # 刚开始的时候 没写这句结果一用 users的时候老是报main 0x错误 搞了我一整天 我还以为是中文编码的问题呢 原来是错在这里
     def __repr__(self):
         return '<User {}>'.format(self.username)
-    # 67页 新增部分
+    # 67页 新增部分 在模型里面定义的函数一般和数据库查询有关系 比如在数据库里面是不是存在这种
     def set_password(self,password):
+        self.password=bcrypt.generate_password_hash(password)
         return bcrypt.generate_password_hash(password)
 
     def check_password(self, password): #self.password 是密码的哈希值 前面没有点的真实的密码值

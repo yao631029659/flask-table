@@ -2,6 +2,8 @@ from os import path
 #这个是配置文件目录 等下main要调用里面的部分信息
 class Config(object):
     SECRET_KEY = '736670cb10a600b695a55839ca3a5aa54a7d7356cdef815d2ad6e19a2031182b'
+    RECAPTCHA_PUBLIC_KEY = '6LfOUhAUAAAAAHiszVGQsv9VO2NCBRsHbEwsvOxr'
+    RECAPTCHA_PRIVATE_KEY = '6LfOUhAUAAAAAAGdkkbTHD6VhPDhZfs2v1RsSAwn'
 
 # class DevConfig(object):  刚开始可以用这句 但是到了表单验证的时候就要改过来了
 class DevConfig(Config):
