@@ -10,7 +10,7 @@
                 <div class="form-group">
                     {{ form.username.label }}
                     {% if form.username.errors %}
-                        {% for error in errors %}
+                        {% for error in form.username.errors %}
                             <p class="help-block">{{ error }}</p>
                         {% endfor %}
                     {% endif %}
@@ -20,7 +20,7 @@
                 <div class="form-group">
                     {{ form.password.label }}
                         {% if form.password.errors %}
-                            {% for error in errors %}
+                            {% for error in form.password.errors %}
                                 <p class="help-block">
                                     {{ error }}
                                 </p>

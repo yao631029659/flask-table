@@ -18,7 +18,7 @@ def login():
         flash('you have logged in',category='success')
         return '登陆成功'
     else:
-        print('main没有通过测试')
+        flash('登陆失败',category='warning')
 
     return render_template(
         'login.html',
@@ -37,12 +37,10 @@ def register():
     form=RegisterForm()
     # 通过检查了就会跑到if里面去了
     if form.validate_on_submit():
-        new_user = User()
-        new_user.username = form.username.data
-        new_user.password = new_user.set_password(form.password.data)
+        new_user = User(form.username.data,form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        flash('your user has been createed,please login.',category='success')
+        flash('your user has been created,please login.',category='success')
         return redirect(url_for('.login'))
     # 如果没有通过检查
     return render_template(

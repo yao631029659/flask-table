@@ -19,6 +19,8 @@ class LoginForm(Form):
     )
     password=PasswordField('password',
     [DataRequired()])
+
+    # 验证函数
     def validate(self):
         # 验证方法继承了 上一个继承的super的validate方法 然后又添加了新的方法进来 还用原来的函数名 super用来解决多重继承的问题 就算Form改名这里也不用改
         check_validate=super().validate()
@@ -51,17 +53,20 @@ class RegisterForm(Form):
     # 重复一次
     confirm=PasswordField('confirm',[DataRequired(),EqualTo('password')])
     # 谷歌验证码 谁能告诉我为什么不用recaptcha.init(app)啊
-    recaptcha=RecaptchaField()
+    # recaptcha=RecaptchaField()  在中国你懂的
     def validate(self):
         check_validate=super().validate()
         if not check_validate:
+            print('基本验证不通过')
             return False
         user=User.query.filter_by(username=self.username.data).first()
-        if not user:
+        if user:
             self.username.errors.append(
                 '用户名已经存在'
             )
+            print('用户名已经存在')
             return False
+        return True
 class PostForm():
     title=StringField('Title',[DataRequired(),Length(max=255)])
     text = TextAreaField('Content',[DataRequired()])
