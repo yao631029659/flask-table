@@ -8,20 +8,28 @@ from webapp.models import db
 from webapp.controllers.blog import blog_blueprint
 from webapp.controllers.main import main_blueprint
 # 这里一共有三句重要的代码
-app = Flask(__name__)
-# 从app下的config导入配置
-app.config.from_object(DevConfig)
-# SQLAlchemy 会自动的从 app 对象中的 DevConfig 中加载连接数据库的配置项
-# 相当于 db=Sqlalchemy（app）
-db.init_app(app) #第一
-# FlaskBcrypt与Flask SQLAlchemy 一样需要使用app对象来进行初始化
-bcrypt.init_app(app)
-@app.route('/')
-def index():
-    # 不能写.home哦 #第二跳转到url_for
-    return redirect(url_for('blog.home'))
-# 注册蓝图 第三
-app.register_blueprint(blog_blueprint)
-app.register_blueprint(main_blueprint)
-if __name__ == '__main__':
+
+def create_app(object_name):
+    '''博客程序'''
+    app = Flask(__name__)
+    # 从app下的config导入配置
+    app.config.from_object(object_name)
+    # SQLAlchemy 会自动的从 app 对象中的 DevConfig 中加载连接数据库的配置项
+    # 相当于 db=Sqlalchemy（app）
+    db.init_app(app) #第一
+    # FlaskBcrypt与Flask SQLAlchemy 一样需要使用app对象来进行初始化
+    bcrypt.init_app(app)
+
+    @app.route('/')
+    def index():
+        # 不能写.home哦 #第二跳转到url_for
+        return redirect(url_for('blog.home'))
+    # 注册蓝图 第三
+    app.register_blueprint(blog_blueprint)
+    app.register_blueprint(main_blueprint)
+    return app
+
+if __name__=='__main__':
+    app=create_app('webapp.config.DevConfig')
     app.run()
+
