@@ -9,7 +9,6 @@
     <orderEntry type="module" module-name="flask-wtf" />
     <orderEntry type="module" module-name="hlt" />
     <orderEntry type="module" module-name="plugable" />
-    <orderEntry type="module" module-name="HLT" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
