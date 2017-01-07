@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="26ad5ede-6779-41b3-ad66-28f691fe9ca9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="D:/华连泰系统备份/hlt release100/database.db" afterPath="D:/华连泰系统备份/hlt release100/database.db" />
-      <change type="MODIFICATION" beforePath="D:/华连泰系统备份/hlt release100/main.py" afterPath="D:/华连泰系统备份/hlt release100/main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -229,7 +227,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="pyconsole" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -949,14 +947,21 @@
       <option name="project" value="LOCAL" />
       <updated>1483486114739</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="新增文章 修改文章实现版">
+      <created>1483774854477</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1483774854477</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21976241" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22354212" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16389549" sideWeight="0.5375" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -984,7 +989,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="手敲版 base文件" />
     <MESSAGE value="手敲版 全部完成了 简洁" />
     <MESSAGE value="main 手打 没有写路由规则" />
     <MESSAGE value="比上一版 加多了注释" />
@@ -1009,7 +1013,8 @@
     <MESSAGE value="登陆实现了 注册因为反向代理的问题实现不了" />
     <MESSAGE value="登陆实现 去除谷歌认证" />
     <MESSAGE value="文件进行拆解版 蓝图控制器" />
-    <option name="LAST_COMMIT_MESSAGE" value="文件进行拆解版 蓝图控制器" />
+    <MESSAGE value="新增文章 修改文章实现版" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增文章 修改文章实现版" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
