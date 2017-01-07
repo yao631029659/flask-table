@@ -1,102 +1,104 @@
 {% extends "blog/base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block body %}
-    <div class="row">
-{#        这里写文章#}
-        <div class="col-lg-9">
-{#            这里写标题#}
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>{{ post.title }}</h1>
-                </div>
-            </div>
-{#            这里写作者和tag#}
-            <div class="row">
-                <div class="col-lg-6">
-                    {{ post.username }}
-                </div>
-                <div class="col-lg-6">
-                    {% for tag in tags %}
-                        <a href="{{ url_for('.tag',tag_name=tag.title) }}">{{ tag.title }}</a>
-                    {% endfor %}
-                </div>
-            </div>
-
-{#            这一行写正文#}
-            <div class="row">
-                {{ post.text|safe }}
-            </div>
-{#            这一行写commnet的头#}
-            <div class="row">
-                <h1>Comments({{ comments|length }})</h1>
-            </div>
+    {#        这里写文章#}
+    <div class="col-lg-8">
+        {#            这里写标题#}
+        <div class="row">
             <div class="col-lg-12">
-                <h3>New Comment:</h3>
-{#                这个post_id从control传出来 又传回control里面去了 post 大小写都没有问题#}
-                <form method="post" action="{{ url_for('.post', post_id=post.id) }}">
-{#                    我们在配置中开启了CSRF(跨站伪造请求)功能，模板参数 {{ form.hidden_tag() }} 会被替换成一个具有防止CSRF功能的隐藏表单字段。在开启了CSRF功能后（默认开通的），所有模板的表单中都需要添加这个模板参数。#}
-                    {{ form.hidden_tag() }}
-{#                        name显示位置#}
-                    <div class="form-group">
-{#                      输出label 就是那个u'Comment'#}
-                       {{ form.name.label }}
-{#                       如果有错误把错误输出#}
-                        {% if form.name.errors %}
-{#                            循环遍历输出错误#}
-                            {% for e in form.name.errors %}
-                                <p class="help-block">{{ e }}</p>
-                            {% endfor %}
-                        {% endif %}
-{#                            这个是输入的那个框框 定义了什么验证就会输出什么框 #}
-                        {{ form.name(class_='form-control') }}
-                    </div>
-{#                    text显示位置#}
-                    <div class="form-group">
-                        {{ form.text.label }}
-                        {% if form.text.errors %}
-                            {% for e in form.errors %}
-                                <p class="help-block">{{ e }}</p>
-                            {% endfor %}
-                        {% endif %}
-                    {{ form.text(class_='form-control') }}
-                    </div>
-                    <input class="btn btn-primary" type="submit" value="Add Comment">
-                </form>
-            </div>
-            <div class="col-lg-12">
-                {% if comments | length == 0 %}
-                    <p>评论没有内容</p>
-{#               有评论了#}
-                {% else %}
-                    {% for comment in comments %}
-                        By:{{ comment.name }}
-                        on:{{ comment.date }}
-                        <p class="well">
-                        {{ comment.text }}
-                        </p>
-                    {% endfor %}
-                {% endif %}
+                <h1>{{ post.title }}</h1>
             </div>
         </div>
-{#        显示top_tags 和recent#}
-        <div class="col-lg-3">
-            <div class="row">
-                <h5>Recent Posts</h5>
-                {% for post in recent %}
-                    <ul>
-                        <li><a href="{{ url_for('.post',post_id=post.id) }}">{{ post.title }}</a> </li>
-                    </ul>
+        {#            这里写作者和tag#}
+        <div class="row">
+            <div class="col-lg-6">
+                {{ post.username }}
+            </div>
+            <div class="col-lg-6">
+                {% for tag in tags %}
+                    <a href="{{ url_for('.tag',tag_name=tag.title) }}">{{ tag.title }}</a>
                 {% endfor %}
             </div>
-            <div class="row">
-                <h5>Popular Tags</h5>
-{#                tag 一共有三列哦#}
-                {% for tag in top_tags %}
-                    <ul>
-                        <li><a href="{{ url_for('.tag',tag_name=tag[0].title) }}">{{ tag[0].title }}</a> </li>
-                    </ul>
+        </div>
+
+        {#            这一行写正文#}
+        <div class="row">
+            {{ post.text|safe }}
+        </div>
+        {#            这一行写commnet的头#}
+        <div class="row">
+            <h1>Comments({{ comments|length }})</h1>
+        </div>
+        <div class="col-lg-12">
+            <h3>New Comment:</h3>
+            {#                这个post_id从control传出来 又传回control里面去了 post 大小写都没有问题#}
+            <form method="post" action="{{ url_for('.post', post_id=post.id) }}">
+                {#                    我们在配置中开启了CSRF(跨站伪造请求)功能，模板参数 {{ form.hidden_tag() }} 会被替换成一个具有防止CSRF功能的隐藏表单字段。在开启了CSRF功能后（默认开通的），所有模板的表单中都需要添加这个模板参数。#}
+                {{ form.hidden_tag() }}
+                {#                        name显示位置#}
+                <div class="form-group">
+                    {#                      输出label 就是那个u'Comment'#}
+                    {{ form.name.label }}
+                    {#                       如果有错误把错误输出#}
+                    {% if form.name.errors %}
+                        {#                            循环遍历输出错误#}
+                        {% for e in form.name.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {#                            这个是输入的那个框框 定义了什么验证就会输出什么框 #}
+                    {{ form.name(class_='form-control') }}
+                </div>
+                {#                    text显示位置#}
+                <div class="form-group">
+                    {{ form.text.label }}
+                    {% if form.text.errors %}
+                        {% for e in form.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.text(class_='form-control') }}
+                </div>
+                <input class="btn btn-primary" type="submit" value="Add Comment">
+            </form>
+        </div>
+        <div class="col-lg-12">
+            {% if comments | length == 0 %}
+                <p>评论没有内容</p>
+                {#               有评论了#}
+            {% else %}
+                {% for comment in comments %}
+                    By:{{ comment.name }}
+                    on:{{ comment.date }}
+                    <p class="well">
+                        {{ comment.text }}
+                    </p>
                 {% endfor %}
-            </div>
+            {% endif %}
         </div>
     </div>
+    <div class="col-lg-1">
+
+    </div>
+    {#        显示top_tags 和recent#}
+    <div class="col-lg-3">
+        <div class="row">
+            <h5>Recent Posts</h5>
+            {% for post in recent %}
+                <ul>
+                    <li><a href="{{ url_for('.post',post_id=post.id) }}">{{ post.title }}</a> </li>
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h5>Popular Tags</h5>
+            {#                tag 一共有三列哦#}
+            {% for tag in top_tags %}
+                <ul>
+                    <li><a href="{{ url_for('.tag',tag_name=tag[0].title) }}">{{ tag[0].title }}</a> </li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
