@@ -67,6 +67,6 @@ class RegisterForm(Form):
             print('用户名已经存在')
             return False
         return True
-class PostForm():
+class PostForm(Form):
     title=StringField('Title',[DataRequired(),Length(max=255)])
     text = TextAreaField('Content',[DataRequired()])

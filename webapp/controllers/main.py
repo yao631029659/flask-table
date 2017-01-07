@@ -47,3 +47,4 @@ def register():
         'register.html',
         form=form
     )
+

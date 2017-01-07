@@ -1,10 +1,10 @@
 import datetime
-from flask import Blueprint,render_template
+from flask import Blueprint,render_template,url_for
 # 新的架构把表单和模型从控制器里面分离出去了 所以在这里要引入回来
 # 这个文件就相当于之前的main文件 main文件一直在运行 现在你把它写到里面来了 在原来的文件里面写蓝图 让它也运行里面的东西
 # 蓝图又和数据库打交道又和表现层打交道 所以两个文件都要引入
 from webapp.models import db,Post,Tag,Comment,User,tags
-from webapp.forms import CommentForm
+from webapp.forms import CommentForm,PostForm
 from sqlalchemy import func
 
 blog_blueprint = Blueprint(
@@ -105,3 +105,31 @@ def user(username):
         recent=recent,
         top_tags=top_tags
     )
+
+@blog_blueprint.route('/new',methods=['GET','POST'])
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        new_post =Post(form.title.data)
+        new_post.text=form.text.data
+        new_post.publish_date=datetime.datetime.now()
+        # new_post.user = User.query.filter_by(username=current_user.username)
+        db.session.add(new_post)
+        db.session.commit()
+
+    return render_template('new.html',form=form)
+
+@blog_blueprint.route('/edit/<int:id>',methods=['GET','POST'])
+def edit_post(id):
+    post = Post.query.get_or_404(id)
+    form=PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.text = form.text.data
+        post.publish_date = datetime.datetime.now()
+        db.session.add(post)
+        db.session.commit()
+        return credits(url_for('.post',post_id=post.id))
+    form.text.data = post.text
+    render_template('edit.html',form=form,post=post)
+
