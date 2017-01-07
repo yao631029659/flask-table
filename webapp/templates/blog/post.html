@@ -20,7 +20,12 @@
                 {% endfor %}
             </div>
         </div>
-
+        {#        有权限的才能编辑#}
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{{ url_for(".edit_post",id=post.id) }}" class="btn-primary btn">Edit</a>
+            </div>
+        </div>
         {#            这一行写正文#}
         <div class="row">
             {{ post.text|safe }}

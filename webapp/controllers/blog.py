@@ -124,13 +124,18 @@ def new_post():
 def edit_post(id):
     post = Post.query.get_or_404(id)
     form=PostForm()
+    print('edit_post被调用')
     if form.validate_on_submit():
+        print('edit_post事务')
         post.title = form.title.data
         post.text = form.text.data
         post.publish_date = datetime.datetime.now()
         db.session.add(post)
         db.session.commit()
-        return credits(url_for('.post',post_id=post.id))
+        print('edit_post事务')
+        return redirect(url_for('.post',post_id=post.id))
     form.text.data = post.text
-    render_template('edit.html',form=form,post=post)
+    form.title.data = post.title
+    return render_template('edit.html',form=form,post=post)
+
 
