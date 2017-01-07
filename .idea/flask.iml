@@ -5,7 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="JmilkFan-s-Blog" />
-    <orderEntry type="module" module-name="flasklearningbook" />
     <orderEntry type="module" module-name="flask-wtf" />
     <orderEntry type="module" module-name="hlt" />
     <orderEntry type="module" module-name="plugable" />
