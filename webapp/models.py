@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from webapp.extensions import bcrypt
+from flask_login import AnonymousUserMixin,UserMixin
 db=SQLAlchemy()
 # model不用应用其它数据
 # 多对多表关系 不过需要去init里面实例化一下 用的方法是db.init_app(app) 相当于之前的db=SQLchemy（app）这样db.model才能用
@@ -9,7 +10,7 @@ tags=db.Table(
     db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'))
 )
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     id=db.Column(db.Integer(),primary_key=True)
     username=db.Column(db.String(255))
     password=db.Column(db.String(255))
@@ -26,12 +27,36 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
     # 67页 新增部分 在模型里面定义的函数一般和数据库查询有关系 比如在数据库里面是不是存在这种
+
     def set_password(self,password):
         self.password=bcrypt.generate_password_hash(password)
         return bcrypt.generate_password_hash(password)
 
     def check_password(self, password): #self.password 是密码的哈希值 前面没有点的真实的密码值
         return bcrypt.check_password_hash(self.password, password)
+
+    # 检验User的实例化对象是否登录了.
+    # def is_authenticcated(self):
+    #     if isinstance(self,AnonymousUserMixin):
+    #         return False
+    #     else:
+    #         return True
+    #
+    # # 检验用户是否通过某些验证
+    # def is_active(self):
+    #     return True
+    #
+    # # 检验用户是否为匿名用户
+    # def is_anoymous(self):
+    #     if isinstance(self, AnonymousUserMixin):
+    #         return True
+    #     else:
+    #         return False
+    #
+    # # 返回User实例化对象的唯一标识id
+    # def get_id(self):
+    #     return unicode(self.id)
+
 class Post(db.Model):
     id=db.Column(db.Integer(),primary_key=True)
     title=db.Column(db.String(255))

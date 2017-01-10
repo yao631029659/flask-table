@@ -1,5 +1,6 @@
 import datetime
 from flask import Blueprint,render_template,url_for,redirect
+from flask_login import login_required
 # 新的架构把表单和模型从控制器里面分离出去了 所以在这里要引入回来
 # 这个文件就相当于之前的main文件 main文件一直在运行 现在你把它写到里面来了 在原来的文件里面写蓝图 让它也运行里面的东西
 # 蓝图又和数据库打交道又和表现层打交道 所以两个文件都要引入
@@ -107,6 +108,7 @@ def user(username):
     )
 
 @blog_blueprint.route('/new',methods=['GET','POST'])
+@login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():

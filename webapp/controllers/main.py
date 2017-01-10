@@ -1,6 +1,7 @@
 from flask import Blueprint,redirect,url_for,flash,render_template
 from webapp.forms import LoginForm,RegisterForm
 from webapp.models import User,db
+from flask_login import login_user,logout_user,login_required
 main_blueprint=Blueprint(
     'main',
     __name__,
@@ -15,8 +16,13 @@ def index():
 def login():
     form=LoginForm()
     if form.validate_on_submit():
+        user=User.query.filter_by(
+            username=form.username.data
+        ).one()
+        # 好了 用了这句flask—login就起作用了
+        login_user(user,remember=form.remember.data)
         flash('you have logged in',category='success')
-        return '登陆成功'
+        return redirect(url_for('blog.home'))
     else:
         flash('登陆失败',category='warning')
 
@@ -27,9 +33,11 @@ def login():
 
 # 退出
 @main_blueprint.route('/logout',methods=['get','post'])
+@login_required
 def logout():
     flash('you have logged out',category='success')
-    return redirect(url_for('.home'))
+    logout_user()
+    return redirect(url_for('blog.home'))
 
 #注册
 @main_blueprint.route('/register',methods=['get','post'])
@@ -41,6 +49,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         flash('your user has been created,please login.',category='success')
+        # 同一级的可以用.login跳转
         return redirect(url_for('.login'))
     # 如果没有通过检查
     return render_template(

@@ -2,6 +2,7 @@ from wtforms import StringField, TextAreaField,PasswordField,BooleanField
 from wtforms.validators import DataRequired,Length,EqualTo,URL
 from flask_wtf import Form,RecaptchaField
 from webapp.models import User
+
 # 专门写wtf类
 # 表单第一步 继承form类
 class CommentForm(Form):
@@ -19,6 +20,7 @@ class LoginForm(Form):
     )
     password=PasswordField('password',
     [DataRequired()])
+    remember = BooleanField('remember')
 
     # 验证函数
     def validate(self):
@@ -70,3 +72,7 @@ class RegisterForm(Form):
 class PostForm(Form):
     title=StringField('Title',[DataRequired(),Length(max=255)])
     text = TextAreaField('Content',[DataRequired()])
+
+
+class OpenIDForm(Form):
+    openid=StringField('openID URL',[DataRequired(),URL()])

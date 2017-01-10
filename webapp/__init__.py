@@ -1,5 +1,5 @@
 from flask import Flask,redirect,url_for
-from webapp.extensions import bcrypt
+from webapp.extensions import bcrypt,login_manager
 # 引入认证文件
 from webapp.config import DevConfig
 # 引入db db=Sqlalchemy（app）
@@ -7,6 +7,8 @@ from webapp.models import db
 # 这个是为了认证蓝图
 from webapp.controllers.blog import blog_blueprint
 from webapp.controllers.main import main_blueprint
+# from webapp.extensions import oath
+from webapp.extensions import oid
 # 这里一共有三句重要的代码
 
 def create_app(object_name):
@@ -19,6 +21,8 @@ def create_app(object_name):
     db.init_app(app) #第一
     # FlaskBcrypt与Flask SQLAlchemy 一样需要使用app对象来进行初始化
     bcrypt.init_app(app)
+    oid.init_app(app)
+    login_manager.init_app(app)
 
     @app.route('/')
     def index():
