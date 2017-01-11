@@ -1,6 +1,6 @@
 import datetime
 from flask import Blueprint,render_template,url_for,redirect
-from flask_login import login_required
+from flask_login import login_required,current_user
 # 新的架构把表单和模型从控制器里面分离出去了 所以在这里要引入回来
 # 这个文件就相当于之前的main文件 main文件一直在运行 现在你把它写到里面来了 在原来的文件里面写蓝图 让它也运行里面的东西
 # 蓝图又和数据库打交道又和表现层打交道 所以两个文件都要引入
@@ -115,11 +115,11 @@ def new_post():
         new_post =Post(form.title.data)
         new_post.text=form.text.data
         new_post.publish_date=datetime.datetime.now()
+        new_post.writer = current_user.username
         # new_post.user = User.query.filter_by(username=current_user.username)
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for('.home'))
-
     return render_template('new.html',form=form)
 
 @blog_blueprint.route('/edit/<int:id>',methods=['GET','POST'])

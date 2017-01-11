@@ -23,8 +23,6 @@ def login():
         login_user(user,remember=form.remember.data)
         flash('you have logged in',category='success')
         return redirect(url_for('blog.home'))
-    else:
-        flash('登陆失败',category='warning')
 
     return render_template(
         'login.html',

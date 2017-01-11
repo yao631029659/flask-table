@@ -62,6 +62,7 @@ class Post(db.Model):
     title=db.Column(db.String(255))
     text=db.Column(db.Text())
     publish_date=db.Column(db.DateTime())
+    writer = db.Column(db.String(255))
     # 不建议使用User.id(对象属性) user.id是类属性相当于 __tablename__
 
     comments=db.relationship(
