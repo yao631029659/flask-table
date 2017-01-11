@@ -20,7 +20,9 @@ def login():
             username=form.username.data
         ).one()
         # 好了 用了这句flask—login就起作用了
-        login_user(user,remember=form.remember.data)
+        print('点击了记住我')
+        print(form.remember.data)
+        login_user(user, remember=form.remember.data)
         flash('you have logged in',category='success')
         return redirect(url_for('blog.home'))
 
