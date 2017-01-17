@@ -2,6 +2,8 @@ from flask import Blueprint,redirect,url_for,flash,render_template
 from webapp.forms import LoginForm,RegisterForm
 from webapp.models import User,db
 from flask_login import login_user,logout_user,login_required
+from flask_principal import Identity,AnonymousIdentity,identity_changed,current_app
+
 main_blueprint=Blueprint(
     'main',
     __name__,
@@ -23,6 +25,13 @@ def login():
         print('点击了记住我')
         print(form.remember.data)
         login_user(user, remember=form.remember.data)
+        # 发送信号给 @identity_loaded.connect_via(app) 修饰的函数
+        identity_changed.send(
+            # 当前app
+            current_app._get_current_object(),
+            # 当前的用户id
+            identity=Identity(user.id)
+        )
         flash('you have logged in',category='success')
         return redirect(url_for('blog.home'))
 
@@ -37,6 +46,11 @@ def login():
 def logout():
     flash('you have logged out',category='success')
     logout_user()
+    identity_changed.send(
+        current_app._get_current_object(),
+        # 一旦退出改变身份成为匿名身份
+        identity=AnonymousIdentity()
+    )
     return redirect(url_for('blog.home'))
 
 #注册

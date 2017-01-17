@@ -8,8 +8,11 @@ from webapp.models import db
 from webapp.controllers.blog import blog_blueprint
 from webapp.controllers.main import main_blueprint
 # from webapp.extensions import oath
-from webapp.extensions import oid
+from webapp.extensions import oid,principals
+from flask_principal import identity_loaded,UserNeed,RoleNeed
+from flask_login import current_user
 # 这里一共有三句重要的代码
+
 
 def create_app(object_name):
     '''博客程序'''
@@ -23,7 +26,20 @@ def create_app(object_name):
     bcrypt.init_app(app)
     oid.init_app(app)
     login_manager.init_app(app)
-
+    principals.init_app(app)
+    # 只要一登陆 就用current_user的id值生成UserNeed类
+    # 只要一登陆 就用current_user的role生成RoleNeed类
+    #identity.provides 给userneed类添加roleneed角色
+    # 现在每当当前用户（身份）发生变化的时候，都会添加一个UserNeed来记录这个用户，通过RoleNeed来记录它的权限
+    @identity_loaded.connect_via(app)
+    def on_identity_loaded(sender,identity):
+        # 和flask_login的关系在此建立
+        identity.user = current_user
+        if hasattr(current_user,'id'):
+            identity.provides.add(UserNeed(current_user.id))
+        if hasattr(current_user,'roles'):
+            for role in current_user.roles:
+                identity.provides.add(RoleNeed(role.name))
     @app.route('/')
     def index():
         # 不能写.home哦 #第二跳转到url_for
@@ -32,6 +48,8 @@ def create_app(object_name):
     app.register_blueprint(blog_blueprint)
     app.register_blueprint(main_blueprint)
     return app
+
+
 
 if __name__=='__main__':
     app=create_app('webapp.config.DevConfig')

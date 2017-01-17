@@ -10,6 +10,12 @@ tags=db.Table(
     db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'))
 )
 
+roles=db.Table(
+    'role_users',
+    db.Column('user_id',db.Integer,db.ForeignKey('user.id')),
+    db.Column('role_id',db.Integer,db.ForeignKey('role.id'))
+)
+
 class User(db.Model,UserMixin):
     id=db.Column(db.Integer(),primary_key=True)
     username=db.Column(db.String(255))
@@ -18,10 +24,21 @@ class User(db.Model,UserMixin):
     # lazy = dynamic: 只有被使用时，对象才会被加载，并且返回式会进行过滤，如果现在或将来需要返回的数据量很大，建议使用这种方式。
     #backref 允许我们从多端向当前一端进行修改Post.user
     posts=db.relationship('Post',backref='user',lazy='subquery')
+    roles=db.relationship(
+        'Role',
+        secondary=roles,
+        backref=db.backref('users',lazy='dynamic')
+    )
+
+
     def __init__(self,username,password):
         self.username=username
         # 调用自身的函数来生成哈希值 结果直接保存到password里面
         self.password=self.set_password(password)
+        # 一个新用户有一个默认的角色 如果要新的角色可以用user.append()增加
+        default = Role.query.filter_by(name="default").first()
+        # roles里面存的是另外一张表
+        self.roles.append(default)
 
     # 刚开始的时候 没写这句结果一用 users的时候老是报main 0x错误 搞了我一整天 我还以为是中文编码的问题呢 原来是错在这里
     def __repr__(self):
@@ -35,7 +52,7 @@ class User(db.Model,UserMixin):
     def check_password(self, password): #self.password 是密码的哈希值 前面没有点的真实的密码值
         return bcrypt.check_password_hash(self.password, password)
 
-    # 检验User的实例化对象是否登录了.
+    # 检验User的实例化对象是否登录了. 下面这些可以通过继承UserMixin实现
     # def is_authenticcated(self):
     #     if isinstance(self,AnonymousUserMixin):
     #         return False
@@ -56,6 +73,18 @@ class User(db.Model,UserMixin):
     # # 返回User实例化对象的唯一标识id
     # def get_id(self):
     #     return unicode(self.id)
+
+class Role(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(80),unique=True)
+    description=db.Column(db.String(255))
+
+    def __init__(self,name):
+        self.name=name
+
+    def __repr__(self):
+        return '<Role {}>'.format(self.name)
+
 
 class Post(db.Model):
     id=db.Column(db.Integer(),primary_key=True)

@@ -7,6 +7,7 @@ from flask_login import login_required,current_user
 from webapp.models import db,Post,Tag,Comment,User,tags
 from webapp.forms import CommentForm,PostForm
 from sqlalchemy import func
+from webapp.extensions import poster_permission
 
 blog_blueprint = Blueprint(
     'blog',
@@ -123,6 +124,7 @@ def new_post():
     return render_template('new.html',form=form)
 
 @blog_blueprint.route('/edit/<int:id>',methods=['GET','POST'])
+@poster_permission.require(http_exception=403)
 def edit_post(id):
     post = Post.query.get_or_404(id)
     form=PostForm()

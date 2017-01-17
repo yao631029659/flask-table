@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:/hlt/.idea/HLT.iml" filepath="D:/hlt/.idea/HLT.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/flask.iml" filepath="$PROJECT_DIR$/.idea/flask.iml" />
       <module fileurl="file://D:/plugable/.idea/plugable.iml" filepath="D:/plugable/.idea/plugable.iml" />
     </modules>

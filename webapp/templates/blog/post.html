@@ -21,14 +21,14 @@
             </div>
         </div>
 
-        {#        有限制的编辑权限#}
-        {% if current_user.username  == post.writer %}
+        {#        有限制的编辑权限 在测试flask_principal的时候可以注释掉#}
+{#        {% if current_user.username  == post.writer %}#}
             <div class="row">
                 <div class="col-lg-offset-10 col-ld-2">
                     <a href="{{ url_for(".edit_post",id=post.id) }}" class="btn-primary btn">Edit</a>
                 </div>
             </div>
-        {% endif %}
+{#        {% endif %}#}
         {#        有权限的才能编辑#}
 
 
