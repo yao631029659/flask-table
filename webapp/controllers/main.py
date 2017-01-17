@@ -29,9 +29,10 @@ def login():
         identity_changed.send(
             # 当前app
             current_app._get_current_object(),
-            # 当前的用户id
+            # 当前的用户id 我觉得这里有点多余 因为在__init__.py 里面不是读取了current_user吗？
             identity=Identity(user.id)
         )
+
         flash('you have logged in',category='success')
         return redirect(url_for('blog.home'))
 

@@ -33,13 +33,19 @@ def create_app(object_name):
     # 现在每当当前用户（身份）发生变化的时候，都会添加一个UserNeed来记录这个用户，通过RoleNeed来记录它的权限
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender,identity):
+        print("传递过来的identity的值是", identity)
         # 和flask_login的关系在此建立
         identity.user = current_user
+        print("identity的值是", identity)
         if hasattr(current_user,'id'):
+            # 新增Need(method='id', value=1)
             identity.provides.add(UserNeed(current_user.id))
+            print("identity的值是", identity)
         if hasattr(current_user,'roles'):
             for role in current_user.roles:
                 identity.provides.add(RoleNeed(role.name))
+            print("identity的值是", identity)
+
     @app.route('/')
     def index():
         # 不能写.home哦 #第二跳转到url_for
