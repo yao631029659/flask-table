@@ -8,9 +8,12 @@ from webapp.models import db
 from webapp.controllers.blog import blog_blueprint
 from webapp.controllers.main import main_blueprint
 # from webapp.extensions import oath
-from webapp.extensions import oid,principals
+from webapp.extensions import oid,principals,flask_admin
 from flask_principal import identity_loaded,UserNeed,RoleNeed
 from flask_login import current_user
+from webapp.controllers.admin import CustomView,CustomModelView
+from webapp.models import db,User,Role,Post,Comment,Tag
+
 # 这里一共有三句重要的代码
 
 
@@ -27,6 +30,15 @@ def create_app(object_name):
     oid.init_app(app)
     login_manager.init_app(app)
     principals.init_app(app)
+    flask_admin.init_app(app)
+    # 这个name是等下后台界面的标签名
+    flask_admin.add_view(CustomView(name='Custom'))
+    models=[User,Role,Post,Comment,Tag]
+    for model in models:
+        flask_admin.add_view(
+            CustomModelView(model,db.session,category='Models')
+        )
+
     # 只要一登陆 就用current_user的id值生成UserNeed类
     # 只要一登陆 就用current_user的role生成RoleNeed类
     #identity.provides 给userneed类添加roleneed角色

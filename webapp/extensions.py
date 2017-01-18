@@ -3,6 +3,8 @@ from flask_openid import OpenID
 # from flask_oauth import OAuth
 from flask_login import LoginManager
 from flask_principal import Principal,Permission,RoleNeed
+from flask_admin import Admin
+
 
 
 bcrypt=Bcrypt()
@@ -31,3 +33,6 @@ principals=Principal()
 admin_permission = Permission(RoleNeed('admin'))
 poster_permission = Permission(RoleNeed('poster'))
 default_permission = Permission(RoleNeed('default'))
+
+#对象化falsk_admin
+flask_admin=Admin()
